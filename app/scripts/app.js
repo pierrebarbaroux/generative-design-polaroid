@@ -3,6 +3,7 @@ import '../styles/app.scss'
 
 import TweenMax from 'gsap/TweenMax'
 import TimelineMax from 'gsap/TimelineMax'
+import './sketch'
 // const ScrollToPlugin = require('gsap/ScrollToPlugin')
 // import ScrollMagic from 'scrollmagic'
 // import 'imports-loader?define=>false!scrollmagic/scrollmagic/uncompressed/plugins/animation.gsap'
