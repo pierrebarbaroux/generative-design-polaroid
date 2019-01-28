@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="theme-color" content="#3023ae">
+
+    <title>Polaroid</title>
+    <meta name="robots" content="index, follow, all">
+
+    <!-- Mobile meta -->
+    <meta name="HandheldFriendly" content="true">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <!-- End mobile meta -->
+</head>
+<body>
+
+  <div class="loading">
+    <img src="./images/polaroid-logo.svg" class="loading__logo">
+  </div>
+
+  <header class="header">
+    <div class="container header__container">
+      <div class="header__logo">
+          <a href="/"><img src="./images/polaroid-logo.svg" class="header__logo-image"></a>
+      </div>
+
+      <nav class="header__nav">
+        <ul>
+          <li class="header__nav-item"><a href="https://www.polaroid.com/products/category/all" target="_blank">Product</a></li>
+          <li class="header__nav-item"><a href="https://www.polaroid.com/news" target="_blank">News</a></li>
+          <li class="header__nav-item"><a href="https://www.polaroid.com/history" target="_blank">History</a></li>
+          <li class="header__nav-item"><a href="http://blog.polaroid.com/" target="_blank">Blog</a></li>
+          <li class="header__nav-item--focus"><a href="/" target="_self">Capture the mood</a></li>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="container main__container">
+      <form action="" method="post" enctype="multipart/form-data">
+        <div class="polaroid">
+          <div class="polaroid__image">
+            <input type="file" class="filepond" name="filepond" accept="image/png, image/jpeg, image/gif">
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="strip">
+      <img src="./images/strip.svg" class="strip__image">
+    </div>
+  </main>
+
+  <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
+  <script src="https://unpkg.com/filepond-plugin-image-exif-orientation/dist/filepond-plugin-image-exif-orientation.js"></script>
+  <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+  <script src="https://unpkg.com/filepond-plugin-image-resize/dist/filepond-plugin-image-resize.js"></script>
+  <script src="https://unpkg.com/filepond-plugin-image-crop/dist/filepond-plugin-image-crop.js"></script>
+  <script src="https://unpkg.com/filepond-plugin-image-transform/dist/filepond-plugin-image-transform.js"></script>
+  <script src="https://unpkg.com/filepond-plugin-file-encode/dist/filepond-plugin-file-encode.js"></script>
+  <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.0.1/color-thief.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+// Define base font-size for the px to rem function
+$base-font-size: 16px;
+
+// Colors
+$black: #000000;
+$white: #FFFFFF;
+$light-grey: #F7F7F7;
+$dark-grey: #323232;
+$red: #FF122F;
+$yellow: #FDBE26;
+$turquoise: #279AD7;
+
+// Fonts
+$ave-light: 'Aileron-Light';
+$ave: 'Aileron-Regular';
+$ave-bold: 'Aileron-Bold';
+$ave-black: 'Aileron-Black';
+
+// Media queries
+$small: 768px;
+$medium: 1024px;
+$large: 1280px;

@@ -1,0 +1,31 @@
+html, body {
+  width: 100vw;
+  height: 100vh;
+  max-width: 100%;
+  position: relative;
+  font-family: $ave, 'Helvetica Neue', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: $light-grey;
+  color: $dark-grey;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.container {
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
+}
+
+a {
+  transition: .3s;
+  color: $dark-grey;
+  text-decoration: none;
+
+  &:hover {
+    color: $yellow;
+  }
+}
