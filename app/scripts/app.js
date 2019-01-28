@@ -77,8 +77,7 @@ class Application {
       );
 
       const file = FilePond.create(
-        document.querySelector('input[type=file]'),
-        {
+        inputElement, {
           labelIdle: `Drag & Drop your picture or <span class="filepond--label-action">Browse</span>`,
           imagePreviewHeight: 200,
           maxFileSize: '5MB',
@@ -99,9 +98,13 @@ class Application {
         let base64 = JSON.parse($('.filepond--file-wrapper input[name="filepond"]')[0].value).data;
         let type = JSON.parse($('.filepond--file-wrapper input[name="filepond"]')[0].value).type;
         let src = `data:${type};base64, ${base64}`;
-        let img = $('<img>');
+        let img = $('<img />');
         img.attr('src', src);
-        // let color s= this._getDominantColor(img);
+        let _this = this;
+        setTimeout(function(){
+          let color = _this._getDominantColor(img);
+          $('body').css('background', color);
+        }, 200);
       });
     }
 
