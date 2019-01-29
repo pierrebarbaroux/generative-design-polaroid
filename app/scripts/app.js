@@ -3,7 +3,7 @@ import '../styles/app.scss'
 
 import TweenMax from 'gsap/TweenMax'
 import TimelineMax from 'gsap/TimelineMax'
-import './sketch'
+import Sketch from './sketch'
 // const ScrollToPlugin = require('gsap/ScrollToPlugin')
 // import ScrollMagic from 'scrollmagic'
 // import 'imports-loader?define=>false!scrollmagic/scrollmagic/uncompressed/plugins/animation.gsap'
@@ -103,7 +103,7 @@ class Application {
         let _this = this;
         setTimeout(function(){
           let color = _this._getDominantColor(img);
-          $('body').css('background', color);
+          new Sketch(color);
         }, 200);
       });
     }
@@ -111,10 +111,7 @@ class Application {
     _getDominantColor(image) {
       image = image[0];
       let colorThief = new ColorThief();
-      let color = colorThief.getColor(image);
-      let palette = colorThief.getPalette(image);
-      let rgb = 'rgb('+color[0]+', '+color[1]+', '+color[2]+')';
-      return rgb;
+      return colorThief.getColor(image);
     }
 }
 
