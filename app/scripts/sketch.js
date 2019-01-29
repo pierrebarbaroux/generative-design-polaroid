@@ -1,53 +1,59 @@
 import * as p5 from './p5.min'
 
-function createSketch(dominantColor) {
-  return function( p ) {
-    // Polaroid Canvas
-    let canvas, x, y, pola, polaTiles = [];
+let s = function( p ) {
+  // Polaroid Canvas
+  let canvas, x, y, pola, polaTiles = [];
 
-    // Settings
-    let tiles = [], tileSize, strWeight, strokeColor;
+  // Settings
+  let tiles = [], tileSize, strWeight, strokeColor;
 
-    // Image params
-    let imageSize;
+  // Image params
+  let imageSize;
 
-    p.setup = () => {
-      console.log(dominantColor);
-      strWeight = 3;
-      tileSize = 100;
+  let dominantColor;
 
-      imageSize = 350;
+  const divId = "sketch";
 
-      strokeColor = p.color(0, 0, 0, 20);
+  let started = false;
 
-      canvas = p.createCanvas(p.windowWidth, p.windowHeight);
-      p.background(255);
+  p.setup = () => {
+    strWeight = 3;
+    tileSize = 100;
 
-      pola = p.createGraphics(420, 530);
+    imageSize = 350;
 
-      // Center canvas
-      // x = (p.windowWidth - canvas.width) / 2;
-      // y = (p.windowHeight - canvas.height) / 2;
-      // canvas.position(x, y);
+    canvas = p.createCanvas(440, 510);
+    canvas.parent(divId);
+    p.background(255);
+
+    pola = p.createGraphics(460, 540);
+
+    // Center canvas
+    // x = (p.windowWidth - canvas.width) / 2;
+    // y = (p.windowHeight - canvas.height) / 2;
+    // canvas.position(x, y);
 
 
-      // Create each tiles
-      // width and height of the canvas
-      for (let i = 0; i < canvas.width; i += tileSize) {
-        for (let j = 0; j < canvas.height; j += tileSize) {
-          tiles.push(new Truchet(i, j, tileSize));
-        }
-      }
-
-      for (let i = 0; i < pola.width; i += tileSize / 2) {
-        for (let j = 0; j < pola.height; j += tileSize / 2) {
-          polaTiles.push(new TruchetPola(i, j, tileSize / 2, pola));
-
-        }
+    // Create each tiles
+    // width and height of the canvas
+    for (let i = 0; i < canvas.width; i += tileSize) {
+      for (let j = 0; j < canvas.height; j += tileSize) {
+        tiles.push(new Truchet(i, j, tileSize));
       }
     }
 
-    p.draw = () => {
+    for (let i = 0; i < pola.width; i += tileSize / 2) {
+      for (let j = 0; j < pola.height; j += tileSize / 2) {
+        polaTiles.push(new TruchetPola(i, j, tileSize / 2, pola));
+      }
+    }
+  }
+
+  p.draw = () => {
+    if(started) {
+
+      strokeColor = p.color(dominantColor[0], dominantColor[1], dominantColor[2]);
+
       p.noFill();
       p.stroke(strokeColor);
       p.strokeWeight(strWeight);
@@ -77,67 +83,74 @@ function createSketch(dominantColor) {
       let y = (p.windowHeight - imageSize - 80) / 2;
       p.rect(x, y, imageSize, imageSize);
     }
+  }
 
 
-    p.windowResized = () => {
-    	p.resizeCanvas(p.windowWidth, p.windowHeight);
-    }
+  p.windowResized = () => {
+  	p.resizeCanvas(p.windowWidth, p.windowHeight);
+  }
 
 
-    // Truchet class
-    function Truchet(x, y, width) {
+  // Truchet class
+  function Truchet(x, y, width) {
 
-      // Two tiles possibilities
-      const option = p.round(p.random(1));
+    // Two tiles possibilities
+    const option = p.round(p.random(1));
 
-      this.drawTile = function() {
+    this.drawTile = function() {
 
-        switch (option) {
-          case 0:
-          // Two 1/4 circle on top right and bottom left corners
-          p.arc(x + width, y, width, width, p.HALF_PI, p.PI);
-          p.arc(x, y + width, width, width, p.PI + p.HALF_PI, 0);
-            break;
+      switch (option) {
+        case 0:
+        // Two 1/4 circle on top right and bottom left corners
+        p.arc(x + width, y, width, width, p.HALF_PI, p.PI);
+        p.arc(x, y + width, width, width, p.PI + p.HALF_PI, 0);
+          break;
 
-          // Two 1/4 circle on top left and bottom right corners
-          default:
-          p.arc(x, y, width, width, p.TWO_PI, p.HALF_PI);
-          p.arc(x + width, y + width, width, width, p.PI, p.PI + p.HALF_PI);
-        }
-
+        // Two 1/4 circle on top left and bottom right corners
+        default:
+        p.arc(x, y, width, width, p.TWO_PI, p.HALF_PI);
+        p.arc(x + width, y + width, width, width, p.PI, p.PI + p.HALF_PI);
       }
-    }
 
-    // Truchet class
-    function TruchetPola(x, y, width, graphic) {
-
-      // Two tiles possibilities
-      const option = p.round(p.random(1));
-
-      this.drawTile = function() {
-
-        switch (option) {
-          case 0:
-          // Two 1/4 circle on top right and bottom left corners
-          graphic.arc(x + width, y, width, width, p.HALF_PI, p.PI);
-          graphic.arc(x, y + width, width, width, p.PI + p.HALF_PI, 0);
-            break;
-
-          // Two 1/4 circle on top left and bottom right corners
-          default:
-          graphic.arc(x, y, width, width, p.TWO_PI, p.HALF_PI);
-          graphic.arc(x + width, y + width, width, width, p.PI, p.PI + p.HALF_PI);
-        }
-
-      }
     }
   }
-}
+
+  // Truchet class
+  function TruchetPola(x, y, width, graphic) {
+
+    // Two tiles possibilities
+    const option = p.round(p.random(1));
+
+    this.drawTile = function() {
+
+      switch (option) {
+        case 0:
+        // Two 1/4 circle on top right and bottom left corners
+        graphic.arc(x + width, y, width, width, p.HALF_PI, p.PI);
+        graphic.arc(x, y + width, width, width, p.PI + p.HALF_PI, 0);
+          break;
+
+        // Two 1/4 circle on top left and bottom right corners
+        default:
+        graphic.arc(x, y, width, width, p.TWO_PI, p.HALF_PI);
+        graphic.arc(x + width, y + width, width, width, p.PI, p.PI + p.HALF_PI);
+      }
+
+    }
+  }
+
+  p.start = (color) => {
+    dominantColor = color;
+    started = true;
+  }
+};
 
 export default class Sketch {
+  constructor() {
+    this.p5 = new p5(s);
 
-  constructor(dominantColor) {
-    let polaroid = new p5(createSketch(dominantColor));
   }
-
+  start(color) {
+    this.p5.start(color);
+  }
 }

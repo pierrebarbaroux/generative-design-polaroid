@@ -23,6 +23,7 @@ class Application {
       this.polaroid = document.querySelector('.polaroid')
       this.strip = document.querySelector('.strip__image')
       this.loadingLogo = document.querySelector('.loading__logo')
+      this.sketch = new Sketch();
 
       this._init()
     }
@@ -103,7 +104,7 @@ class Application {
         let _this = this;
         setTimeout(function(){
           let color = _this._getDominantColor(img);
-          new Sketch(color);
+          _this.sketch.start(color);
         }, 200);
       });
     }
