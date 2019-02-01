@@ -36,6 +36,7 @@
 .filepond--image-preview-overlay-idle {
   mix-blend-mode: multiply;
   color: rgba(40, 40, 40, 0.85);
+  display: none;
 }
 
 .filepond--image-preview-overlay-success {

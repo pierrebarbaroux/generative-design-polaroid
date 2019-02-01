@@ -1,4 +1,4 @@
-import * as p5 from './p5.min'
+import * as p5 from './libs/p5.min'
 
 let s = function( p ) {
   // Polaroid Canvas
@@ -11,9 +11,6 @@ let s = function( p ) {
   let imageSize;
 
   let dominantColor;
-
-  const divId = "sketch";
-
   let started = false;
 
   p.setup = () => {
@@ -22,11 +19,10 @@ let s = function( p ) {
 
     imageSize = 350;
 
-    canvas = p.createCanvas(440, 510);
-    canvas.parent(divId);
+    canvas = p.createCanvas(p.windowWidth, p.windowHeight);
     p.background(255);
 
-    pola = p.createGraphics(460, 540);
+    pola = p.createGraphics(440, 510);
 
     // Center canvas
     // x = (p.windowWidth - canvas.width) / 2;
@@ -53,7 +49,6 @@ let s = function( p ) {
     if(started) {
 
       strokeColor = p.color(dominantColor[0], dominantColor[1], dominantColor[2]);
-
       p.noFill();
       p.stroke(strokeColor);
       p.strokeWeight(strWeight);
@@ -74,7 +69,7 @@ let s = function( p ) {
       }
 
       // Paint the off-screen buffer onto the main canvas
-      p.image(pola, (p.windowWidth - pola.width) / 2, 100);
+      p.image(pola, 0, 0);
 
       // Draw black rect of the polaroid
       p.fill(0);
@@ -85,11 +80,9 @@ let s = function( p ) {
     }
   }
 
-
   p.windowResized = () => {
-  	p.resizeCanvas(p.windowWidth, p.windowHeight);
+  	// p.resizeCanvas(p.windowWidth, p.windowHeight);
   }
-
 
   // Truchet class
   function Truchet(x, y, width) {
@@ -115,40 +108,15 @@ let s = function( p ) {
     }
   }
 
-  // Truchet class
-  function TruchetPola(x, y, width, graphic) {
-
-    // Two tiles possibilities
-    const option = p.round(p.random(1));
-
-    this.drawTile = function() {
-
-      switch (option) {
-        case 0:
-        // Two 1/4 circle on top right and bottom left corners
-        graphic.arc(x + width, y, width, width, p.HALF_PI, p.PI);
-        graphic.arc(x, y + width, width, width, p.PI + p.HALF_PI, 0);
-          break;
-
-        // Two 1/4 circle on top left and bottom right corners
-        default:
-        graphic.arc(x, y, width, width, p.TWO_PI, p.HALF_PI);
-        graphic.arc(x + width, y + width, width, width, p.PI, p.PI + p.HALF_PI);
-      }
-
-    }
-  }
-
   p.start = (color) => {
     dominantColor = color;
     started = true;
   }
 };
 
-export default class Sketch {
+export default class Background {
   constructor() {
     this.p5 = new p5(s);
-
   }
   start(color) {
     this.p5.start(color);
