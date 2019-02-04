@@ -125,7 +125,8 @@ class Application {
       });
 
       file.on('removefile', () => {
-        document.querySelector('canvas').remove();
+        document.querySelector('canvas.p5Canvas').remove();
+        document.querySelector('body > canvas').remove();
         this.sketchPolaroid = new Polaroid();
       });
     }
