@@ -1,11 +1,25 @@
-let $ = require('jquery')
 import '../styles/app.scss'
 
+// Color Thief - Grab the dominant color of an image
+// import * as ColorThief from './libs/color-thief.min'
+
+// FilePond image uploader & plugins
+import * as FilePondPluginFileEncode from './libs/filepond-plugin-file-encode'
+import * as FilePondPluginFileValidateType from './libs/filepond-plugin-file-validate-type'
+import * as FilePondPluginImageCrop from './libs/filepond-plugin-image-crop'
+import * as FilePondPluginImageExifOrientation from './libs/filepond-plugin-image-exif-orientation'
+import * as FilePondPluginImagePreview from './libs/filepond-plugin-image-preview'
+import * as FilePondPluginImageResize from './libs/filepond-plugin-image-resize'
+import * as FilePondPluginImageTransform from './libs/filepond-plugin-image-transform'
+import * as FilePond from './libs/filepond'
+
+// TweenMax
 import TweenMax from 'gsap/TweenMax'
 import TimelineMax from 'gsap/TimelineMax'
-// const ScrollToPlugin = require('gsap/ScrollToPlugin')
-// import ScrollMagic from 'scrollmagic'
-// import 'imports-loader?define=>false!scrollmagic/scrollmagic/uncompressed/plugins/animation.gsap'
+
+// P5
+import Background from './background.p5'
+import Polaroid from './polaroid.p5'
 
 // Polyfill for IE/Edge
 (function () {
@@ -22,6 +36,9 @@ class Application {
       this.polaroid = document.querySelector('.polaroid')
       this.strip = document.querySelector('.strip__image')
       this.loadingLogo = document.querySelector('.loading__logo')
+      this.polaroid = document.querySelector('.polaroid')
+      // this.sketchBackground = new Background();
+      this.sketchPolaroid = new Polaroid();
 
       this._init()
     }
@@ -52,13 +69,13 @@ class Application {
       tl.to(this.polaroid, 0.4, {
         autoAlpha: 1,
         ease: Power2.easeOut
-      }, "start+=0.2")
+      }, "start+=0.6")
 
       tl.to(this.header, 0.8, {
         top: 0,
         autoAlpha: 1,
         ease: Power2.easeOut
-      }, "start+=0.2")
+      }, "start+=0.6")
 
     }
 
@@ -94,26 +111,28 @@ class Application {
 
       file.on('addfile', (error, file) => {
         if (error) return;
-        let base64 = JSON.parse($('.filepond--file-wrapper input[name="filepond"]')[0].value).data;
-        let type = JSON.parse($('.filepond--file-wrapper input[name="filepond"]')[0].value).type;
+        let base64 = JSON.parse(document.querySelector('.filepond--file-wrapper input[name="filepond"]').value).data;
+        let type = JSON.parse(document.querySelector('.filepond--file-wrapper input[name="filepond"]').value).type;
         let src = `data:${type};base64, ${base64}`;
-        let img = $('<img />');
-        img.attr('src', src);
+        let img = document.createElement('img');
+        img.src = src;
         let _this = this;
-        setTimeout(function(){
+        setTimeout(function() {
           let color = _this._getDominantColor(img);
-          $('body').css('background', color);
+          _this.sketchPolaroid.start(color);
+          // _this.sketchBackground.start(color);
         }, 200);
+      });
+
+      file.on('removefile', () => {
+        document.querySelector('canvas').remove();
+        this.sketchPolaroid = new Polaroid();
       });
     }
 
     _getDominantColor(image) {
-      image = image[0];
       let colorThief = new ColorThief();
-      let color = colorThief.getColor(image);
-      let palette = colorThief.getPalette(image);
-      let rgb = 'rgb('+color[0]+', '+color[1]+', '+color[2]+')';
-      return rgb;
+      return colorThief.getColor(image);
     }
 }
 
