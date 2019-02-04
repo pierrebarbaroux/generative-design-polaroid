@@ -1,4 +1,3 @@
-let $ = require('jquery')
 import '../styles/app.scss'
 
 // Color Thief - Grab the dominant color of an image
@@ -112,13 +111,13 @@ class Application {
 
       file.on('addfile', (error, file) => {
         if (error) return;
-        let base64 = JSON.parse($('.filepond--file-wrapper input[name="filepond"]')[0].value).data;
-        let type = JSON.parse($('.filepond--file-wrapper input[name="filepond"]')[0].value).type;
+        let base64 = JSON.parse(document.querySelector('.filepond--file-wrapper input[name="filepond"]').value).data;
+        let type = JSON.parse(document.querySelector('.filepond--file-wrapper input[name="filepond"]').value).type;
         let src = `data:${type};base64, ${base64}`;
-        let img = $('<img />');
-        img.attr('src', src);
+        let img = document.createElement('img');
+        img.src = src;
         let _this = this;
-        setTimeout(function(){
+        setTimeout(function() {
           let color = _this._getDominantColor(img);
           _this.sketchPolaroid.start(color);
           // _this.sketchBackground.start(color);
@@ -126,13 +125,12 @@ class Application {
       });
 
       file.on('removefile', () => {
-        _this.sketchPolaroid.start(color);
-        
+        document.querySelector('canvas').remove();
+        this.sketchPolaroid = new Polaroid();
       });
     }
 
     _getDominantColor(image) {
-      image = image[0];
       let colorThief = new ColorThief();
       return colorThief.getColor(image);
     }
