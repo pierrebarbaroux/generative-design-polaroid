@@ -6,6 +6,11 @@
   top: -6rem;
   background: $white;
   box-shadow: 0 3px 4px rgba(0, 0, 0, 0.1);
+  overflow: auto;
+
+  @include small {
+    height: 3rem;
+  }
 
   &__container {
     height: 100%;
@@ -26,6 +31,10 @@
     img.header__logo-image {
       width: rem(150px);
       height: auto;
+
+      @include small {
+        width: rem(75px);
+      }
     }
   }
 
@@ -37,8 +46,16 @@
         font-size: rem(14px);
         margin-right: rem(30px);
 
+        @include small {
+          margin-right: rem(15px);
+        }
+
         &--focus {
           margin-left: rem(40px);
+
+          @include small {
+            margin-left: rem(15px);
+          }
 
           & > a {
             border-radius: 4px;
