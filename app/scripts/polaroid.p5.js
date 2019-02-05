@@ -42,7 +42,6 @@ let s = function( p ) {
 
   p.draw = () => {
     if(started) {
-
       strokeColor = p.color(dominantColor[0], dominantColor[1], dominantColor[2]);
 
       // Draw polaroid

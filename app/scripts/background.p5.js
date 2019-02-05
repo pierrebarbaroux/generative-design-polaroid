@@ -7,28 +7,17 @@ let s = function( p ) {
   // Settings
   let tiles = [], tileSize, strWeight, strokeColor;
 
-  // Image params
-  let imageSize;
-
   let dominantColor;
+  const divId = "test";
   let started = false;
 
   p.setup = () => {
     strWeight = 3;
     tileSize = 100;
 
-    imageSize = 350;
-
     canvas = p.createCanvas(p.windowWidth, p.windowHeight);
-    p.background(255);
-
-    pola = p.createGraphics(440, 510);
-
-    // Center canvas
-    // x = (p.windowWidth - canvas.width) / 2;
-    // y = (p.windowHeight - canvas.height) / 2;
-    // canvas.position(x, y);
-
+    canvas.parent(divId);
+    p.background(247);
 
     // Create each tiles
     // width and height of the canvas
@@ -37,18 +26,11 @@ let s = function( p ) {
         tiles.push(new Truchet(i, j, tileSize));
       }
     }
-
-    for (let i = 0; i < pola.width; i += tileSize / 2) {
-      for (let j = 0; j < pola.height; j += tileSize / 2) {
-        polaTiles.push(new TruchetPola(i, j, tileSize / 2, pola));
-      }
-    }
   }
 
   p.draw = () => {
     if(started) {
-
-      strokeColor = p.color(dominantColor[0], dominantColor[1], dominantColor[2]);
+      strokeColor = p.color(255);
       p.noFill();
       p.stroke(strokeColor);
       p.strokeWeight(strWeight);
@@ -57,26 +39,6 @@ let s = function( p ) {
       for (let i = 0; i < tiles.length; i++) {
         tiles[i].drawTile();
       }
-
-      // Draw polaroid
-      pola.background(255);
-      pola.stroke(p.color(dominantColor[0], dominantColor[1], dominantColor[2]));
-      pola.strokeWeight(strWeight);
-
-      // Draw each tiles in polaroid
-      for (let i = 0; i < polaTiles.length; i++) {
-        polaTiles[i].drawTile();
-      }
-
-      // Paint the off-screen buffer onto the main canvas
-      p.image(pola, 0, 0);
-
-      // Draw black rect of the polaroid
-      p.fill(0);
-      p.noStroke();
-      let x = (p.windowWidth - imageSize) / 2;
-      let y = (p.windowHeight - imageSize - 80) / 2;
-      p.rect(x, y, imageSize, imageSize);
     }
   }
 

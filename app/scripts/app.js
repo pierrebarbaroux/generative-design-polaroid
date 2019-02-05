@@ -37,7 +37,7 @@ class Application {
       this.strip = document.querySelector('.strip__image')
       this.loadingLogo = document.querySelector('.loading__logo')
       this.polaroid = document.querySelector('.polaroid')
-      // this.sketchBackground = new Background();
+      this.sketchBackground = new Background();
       this.sketchPolaroid = new Polaroid();
 
       this._init()
@@ -120,12 +120,27 @@ class Application {
         setTimeout(function() {
           let color = _this._getDominantColor(img);
           _this.sketchPolaroid.start(color);
-          // _this.sketchBackground.start(color);
+          _this.sketchBackground.start(color);
+
+          // Init Timeline, kill it on completion for performance gain
+          let tl = new TimelineMax({onComplete: () => {
+            tl.kill()
+          }})
+
+          tl.to(document.querySelector('#defaultCanvas0'), 0.4, {
+            autoAlpha: 1,
+            ease: Power4.easeOut
+          })
+
         }, 200);
       });
 
       file.on('removefile', () => {
-        document.querySelector('canvas').remove();
+        // Remove all canvas
+        document.querySelectorAll('canvas').forEach(el => el.remove());
+
+        // Reset background and polaroid
+        this.sketchBackground = new Background();
         this.sketchPolaroid = new Polaroid();
       });
     }
