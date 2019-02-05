@@ -7,9 +7,6 @@ let s = function( p ) {
   // Settings
   let tiles = [], tileSize, strWeight, strokeColor;
 
-  // Image params
-  let imageSize;
-
   let dominantColor;
   const divId = "sketch";
   let started = false;
@@ -17,8 +14,6 @@ let s = function( p ) {
   p.setup = () => {
     strWeight = 3;
     tileSize = 100;
-
-    imageSize = 350;
 
     canvas = p.createCanvas(440, 510);
     canvas.parent(divId);
