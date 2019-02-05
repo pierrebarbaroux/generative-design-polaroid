@@ -8,7 +8,7 @@ let s = function( p ) {
   let tiles = [], tileSize, strWeight, strokeColor;
 
   let dominantColor;
-  const divId = "test";
+  const divId = "canvas-background";
   let started = false;
 
   p.setup = () => {
@@ -30,7 +30,7 @@ let s = function( p ) {
 
   p.draw = () => {
     if(started) {
-      strokeColor = p.color(255);
+      strokeColor = p.color(230);
       p.noFill();
       p.stroke(strokeColor);
       p.strokeWeight(strWeight);
@@ -39,6 +39,9 @@ let s = function( p ) {
       for (let i = 0; i < tiles.length; i++) {
         tiles[i].drawTile();
       }
+
+      // Draw strokes only one time
+      p.noLoop();
     }
   }
 

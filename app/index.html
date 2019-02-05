@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <!-- End mobile meta -->
 </head>
-<body id="test">
+<body id="canvas-background">
 
   <div class="loading">
     <img src="./images/polaroid-logo.svg" class="loading__logo">
@@ -37,13 +37,21 @@
 
   <main class="main">
     <div class="container main__container">
-      <form action="" method="post" enctype="multipart/form-data">
-        <div class="polaroid" id="sketch">
-          <div class="polaroid__image">
-            <input type="file" class="filepond" name="filepond" accept="image/png, image/jpeg, image/gif">
-          </div>
+      <div class="polaroid" id="canvas-polaroid">
+        <div class="polaroid__image">
+          <input type="file" class="filepond" name="filepond" accept="image/png, image/jpeg, image/gif">
         </div>
-      </form>
+      </div>
+      <button class="btn btn-blue share-button">Perfect!</button>
+
+      <div class="share">
+        <h2>Share your best moment.</h2>
+        <ul>
+          <li><a href="#">Facebook</a></li>
+          <li><a href="#">Twitter</a></li>
+          <li><a href="#">Instagram</a></li>
+        </ul>
+      </div>
     </div>
 
     <div class="strip">

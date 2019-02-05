@@ -46,6 +46,11 @@ class Application {
     _init() {
       this._animateIntro()
       this._handleImageUpload()
+
+      let _this = this;
+      document.querySelector('.polaroid__image').addEventListener('click', function(){
+        _this._switchPatterns()
+      });
     }
 
     _animateIntro() {
@@ -127,10 +132,12 @@ class Application {
             tl.kill()
           }})
 
-          tl.to(document.querySelector('#defaultCanvas0'), 0.4, {
+          tl.to(document.querySelector('#defaultCanvas0'), 0.6, {
             autoAlpha: 1,
             ease: Power4.easeOut
           })
+
+          document.querySelector('.share-button').style.display = 'block';
 
         }, 200);
       });
@@ -143,6 +150,10 @@ class Application {
         this.sketchBackground = new Background();
         this.sketchPolaroid = new Polaroid();
       });
+    }
+
+    _switchPatterns() {
+      console.log("switch patterns");
     }
 
     _getDominantColor(image) {

@@ -7,29 +7,19 @@ let s = function( p ) {
   // Settings
   let tiles = [], tileSize, strWeight, strokeColor;
 
-  // Image params
-  let imageSize;
-
   let dominantColor;
-  const divId = "sketch";
+  const divId = "canvas-polaroid";
   let started = false;
 
   p.setup = () => {
     strWeight = 3;
     tileSize = 100;
 
-    imageSize = 350;
-
     canvas = p.createCanvas(440, 510);
     canvas.parent(divId);
     p.background(255);
 
     pola = p.createGraphics(440, 510);
-
-    // Center canvas
-    // x = (p.windowWidth - canvas.width) / 2;
-    // y = (p.windowHeight - canvas.height) / 2;
-    // canvas.position(x, y);
 
     // Create each tiles
     // width and height of the canvas
@@ -42,7 +32,7 @@ let s = function( p ) {
 
   p.draw = () => {
     if(started) {
-      strokeColor = p.color(dominantColor[0], dominantColor[1], dominantColor[2]);
+      strokeColor = p.color(dominantColor[0], dominantColor[1], dominantColor[2], 180);
 
       // Draw polaroid
       pola.background(255);
@@ -56,6 +46,9 @@ let s = function( p ) {
 
       // Paint the off-screen buffer onto the main canvas
       p.image(pola, 0, 0);
+
+      // Draw strokes only one time
+      p.noLoop();
     }
   }
 
