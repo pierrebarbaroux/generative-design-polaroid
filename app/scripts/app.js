@@ -46,6 +46,11 @@ class Application {
     _init() {
       this._animateIntro()
       this._handleImageUpload()
+
+      let _this = this;
+      document.querySelector('.polaroid__image').addEventListener('click', function(){
+        _this._switchPatterns()
+      });
     }
 
     _animateIntro() {
@@ -129,6 +134,10 @@ class Application {
         document.querySelector('body > canvas').remove();
         this.sketchPolaroid = new Polaroid();
       });
+    }
+
+    _switchPatterns() {
+      console.log("switch patterns");
     }
 
     _getDominantColor(image) {
