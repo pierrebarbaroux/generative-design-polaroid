@@ -11,13 +11,11 @@ let s = function( p ) {
   const divId = "sketch";
   let started = false;
 
-  let option;
+  let seed;
 
   p.setup = () => {
     strWeight = 3;
-    tileSize = 100;
-
-    strokeColor = p.color(0);
+    tileSize = 50;
 
     canvas = p.createCanvas(440, 510);
     canvas.parent(divId);
@@ -25,33 +23,13 @@ let s = function( p ) {
 
     pola = p.createGraphics(440, 510);
 
-    let t0 = tile0(p.createGraphics(tileSize, tileSize));
-
-    let t1 = tile1(p.createGraphics(tileSize, tileSize));
-    let t2 = tile2(p.createGraphics(tileSize, tileSize));
-    let t3 = tile3(p.createGraphics(tileSize, tileSize));
-    let t4 = tile4(p.createGraphics(tileSize, tileSize));
-    let t5 = tile5(p.createGraphics(tileSize, tileSize));
-
-    option = p.round(p.random(1));
-
-    switch (option) {
-      case 1:
-        polaTiles.push(t1);
-        polaTiles.push(t2);
-        polaTiles.push(t3);
-        polaTiles.push(t4);
-        polaTiles.push(t5);
-        break;
-      default:
-        polaTiles.push(t0);
-    }
-
-    p.noLoop();
+    seed = p.round(p.random(1));
   }
 
   p.draw = () => {
     if (started) {
+
+      p.randomSeed(seed);
 
       strokeColor = p.color(dominantColor[0], dominantColor[1], dominantColor[2]);
 
@@ -62,6 +40,25 @@ let s = function( p ) {
 
       // Paint the off-screen buffer onto the main canvas
       p.image(pola, 0, 0);
+
+      let t0 = tile0(p.createGraphics(tileSize, tileSize));
+      let t1 = tile1(p.createGraphics(tileSize, tileSize));
+      let t2 = tile2(p.createGraphics(tileSize, tileSize));
+      let t3 = tile3(p.createGraphics(tileSize, tileSize));
+      let t4 = tile4(p.createGraphics(tileSize, tileSize));
+      let t5 = tile5(p.createGraphics(tileSize, tileSize));
+
+      switch (seed) {
+        case 1:
+          polaTiles.push(t1);
+          polaTiles.push(t2);
+          polaTiles.push(t3);
+          polaTiles.push(t4);
+          polaTiles.push(t5);
+          break;
+        default:
+          polaTiles.push(t0);
+      }
 
       // Draw each tiles in polaroid
       let tileMax = polaTiles.length - Number.EPSILON;
@@ -77,6 +74,9 @@ let s = function( p ) {
           p.pop();
         }
       }
+
+      p.noLoop();
+
     }
   }
 
