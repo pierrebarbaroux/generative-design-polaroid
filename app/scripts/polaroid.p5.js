@@ -8,7 +8,7 @@ let s = function( p ) {
   let tiles = [], tileSize, strWeight, strokeColor;
 
   let dominantColor;
-  const divId = "sketch";
+  const divId = "canvas-polaroid";
   let started = false;
 
   let seed;
@@ -74,9 +74,8 @@ let s = function( p ) {
           p.pop();
         }
       }
-
+      
       p.noLoop();
-
     }
   }
 

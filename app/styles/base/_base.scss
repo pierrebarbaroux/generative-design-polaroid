@@ -29,3 +29,29 @@ a {
     color: $yellow;
   }
 }
+
+button {
+  background: transparent;
+  outline: none;
+  border: 2px solid #E6E6E6;
+  border-radius: 4px;
+  padding: 10px 13px;
+
+  // Font
+  font-size: rem(14px);
+  font-weight: bold;
+  font-family: $ave, 'Helvetica Neue', Arial, sans-serif;
+
+  // Effect
+  cursor: pointer;
+  &.btn-blue {
+    color: $turquoise;
+    border-color: $turquoise;
+    transition: 0.3s;
+
+    &:hover {
+      background: $turquoise;
+      color: $white;
+    }
+  }
+}
