@@ -26,11 +26,6 @@ let s = function( p ) {
 
     pola = p.createGraphics(440, 510);
 
-    // Center canvas
-    // x = (p.windowWidth - canvas.width) / 2;
-    // y = (p.windowHeight - canvas.height) / 2;
-    // canvas.position(x, y);
-
     // Create each tiles
     // width and height of the canvas
     for (let i = 0; i < pola.width; i += tileSize / 2) {
