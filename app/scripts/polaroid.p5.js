@@ -22,8 +22,6 @@ let s = function( p ) {
     p.background(255);
 
     pola = p.createGraphics(440, 510);
-
-    seed = p.round(p.random(2));
   }
 
   p.draw = () => {
@@ -203,6 +201,7 @@ let s = function( p ) {
   p.start = (color) => {
     dominantColor = color;
     started = true;
+    seed = p.round(p.random(2));
   }
 };
 
