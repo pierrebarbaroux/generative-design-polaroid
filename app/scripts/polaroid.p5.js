@@ -7,22 +7,27 @@ let s = function( p ) {
   // Settings
   let tiles = [], tileSize, strWeight, strokeColor;
 
+  let seed;
   let dominantColor;
-  const divId = "canvas-polaroid";
   let started = false;
 
-  let seed;
+  const divId = "canvas-polaroid";
+
+  p.start = (color, patternSeed) => {
+    dominantColor = color;
+    started = true;
+    seed = patternSeed;
+  }
 
   p.setup = () => {
     strWeight = 2;
-    tileSize = 50;
+    tileSize = 45;
 
     canvas = p.createCanvas(440, 510);
     canvas.parent(divId);
     p.background(255);
 
     pola = p.createGraphics(440, 510);
-
   }
 
   p.draw = () => {
@@ -40,17 +45,17 @@ let s = function( p ) {
       // Paint the off-screen buffer onto the main canvas
       p.image(pola, 0, 0);
 
-      // first truchet tile
+      // First truchet tile
       let t0 = tile0(p.createGraphics(tileSize, tileSize));
 
-      // second truchet tiles
+      // Second truchet tiles
       let t1 = tile1(p.createGraphics(tileSize, tileSize));
       let t2 = tile2(p.createGraphics(tileSize, tileSize));
       let t3 = tile3(p.createGraphics(tileSize, tileSize));
       let t4 = tile4(p.createGraphics(tileSize, tileSize));
       let t5 = tile5(p.createGraphics(tileSize, tileSize));
 
-      // third truchet tiles
+      // Third truchet tiles
       let t6 = tile6(p.createGraphics(tileSize, tileSize));
 
       switch (seed) {
@@ -83,6 +88,7 @@ let s = function( p ) {
         }
       }
 
+      // Draw strokes only one time
       p.noLoop();
     }
   }
@@ -103,13 +109,11 @@ let s = function( p ) {
     return pg;
   }
 
-
   /**
    * Second truchet
    * @param  {[Object]} pg graphics
    * @return {[Object]} pg graphics
    */
-
    const tile1 = (pg) => {
     pg.noFill();
     pg.stroke(strokeColor);
@@ -179,6 +183,11 @@ let s = function( p ) {
     return pg;
   }
 
+  /**
+   * Third truchet
+   * @param  {[Object]} pg graphics
+   * @return {[Object]} pg graphics
+   */
   const tile6 = (pg) => {
     strokedLine(pg.width / 2, 0, 0, pg.height / 2, pg);
     strokedLine(pg.width, pg.height / 2, pg.width / 2, pg.height, pg);
@@ -198,19 +207,13 @@ let s = function( p ) {
     pg.strokeWeight(strWeight);
     pg.line(x1, y1, x2, y2);
   }
-
-  p.start = (color) => {
-    dominantColor = color;
-    started = true;
-    seed = p.round(p.random(3));
-  }
 };
 
 export default class Polaroid {
   constructor() {
     this.p5 = new p5(s);
   }
-  start(color) {
-    this.p5.start(color);
+  start(color, patternSeed) {
+    this.p5.start(color, patternSeed);
   }
 }

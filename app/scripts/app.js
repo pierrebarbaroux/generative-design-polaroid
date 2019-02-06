@@ -39,6 +39,7 @@ class Application {
       this.polaroid = document.querySelector('.polaroid')
       this.sketchBackground = new Background();
       this.sketchPolaroid = new Polaroid();
+      this.amountPatterns = 2;
 
       this._init()
     }
@@ -121,23 +122,24 @@ class Application {
         let src = `data:${type};base64, ${base64}`;
         let img = document.createElement('img');
         img.src = src;
-        let _this = this;
+        let t = this;
         setTimeout(function() {
-          let color = _this._getDominantColor(img);
-          _this.sketchPolaroid.start(color);
-          _this.sketchBackground.start(color);
+          let color = t._getDominantColor(img);
+          let seed = Math.round(Math.random() * t.amountPatterns);
+          t.sketchPolaroid.start(color, seed);
+          t.sketchBackground.start(color, seed);
 
           // Init Timeline, kill it on completion for performance gain
           let tl = new TimelineMax({onComplete: () => {
             tl.kill()
           }})
 
-          tl.to(document.querySelector('#defaultCanvas0'), 0.6, {
+          tl.to(document.querySelector('body > canvas.p5Canvas'), 0.6, {
             autoAlpha: 1,
             ease: Power4.easeOut
           })
 
-          document.querySelector('.share-button').style.display = 'block';
+          // document.querySelector('.share-button').style.display = 'block';
 
         }, 200);
       });

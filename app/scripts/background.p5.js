@@ -2,14 +2,22 @@ import * as p5 from './libs/p5.min'
 
 let s = function( p ) {
   // Polaroid Canvas
-  let canvas, x, y, pola, polaTiles = [];
+  let canvas, x, y, polaTiles = [];
 
   // Settings
   let tiles = [], tileSize, strWeight, strokeColor;
 
+  let seed;
   let dominantColor;
-  const divId = "canvas-background";
   let started = false;
+
+  const divId = "canvas-background";
+
+  p.start = (color, patternSeed) => {
+    dominantColor = color;
+    started = true;
+    seed = patternSeed;
+  }
 
   p.setup = () => {
     strWeight = 3;
@@ -18,18 +26,13 @@ let s = function( p ) {
     canvas = p.createCanvas(p.windowWidth, p.windowHeight);
     canvas.parent(divId);
     p.background(247);
-
-    // Create each tiles
-    // width and height of the canvas
-    for (let i = 0; i < canvas.width; i += tileSize) {
-      for (let j = 0; j < canvas.height; j += tileSize) {
-        tiles.push(new Truchet(i, j, tileSize));
-      }
-    }
   }
 
   p.draw = () => {
     if(started) {
+
+      p.randomSeed(seed);
+
       strokeColor = p.color(230);
       p.noFill();
       p.stroke(strokeColor);
@@ -40,42 +43,167 @@ let s = function( p ) {
         tiles[i].drawTile();
       }
 
+      // First truchet tile
+      let t0 = tile0(p.createGraphics(tileSize, tileSize));
+
+      // Second truchet tiles
+      let t1 = tile1(p.createGraphics(tileSize, tileSize));
+      let t2 = tile2(p.createGraphics(tileSize, tileSize));
+      let t3 = tile3(p.createGraphics(tileSize, tileSize));
+      let t4 = tile4(p.createGraphics(tileSize, tileSize));
+      let t5 = tile5(p.createGraphics(tileSize, tileSize));
+
+      // Third truchet tiles
+      let t6 = tile6(p.createGraphics(tileSize, tileSize));
+
+      switch (seed) {
+        case 1:
+          polaTiles.push(t1);
+          polaTiles.push(t2);
+          polaTiles.push(t3);
+          polaTiles.push(t4);
+          polaTiles.push(t5);
+          break;
+        case 2:
+          polaTiles.push(t6);
+          break;
+        default:
+          polaTiles.push(t0);
+      }
+
+      // Draw each tiles in polaroid
+      let tileMax = polaTiles.length - Number.EPSILON;
+
+      for (let i = 0; i < canvas.width; i += tileSize) {
+        for (let j = 0; j < canvas.height; j += tileSize) {
+          let index = Math.floor(Math.random() * tileMax);
+          p.push();
+          p.translate(i + tileSize/2, j + tileSize/2);
+          p.rotate(Math.floor(Math.random() * 3) * p.HALF_PI);
+          p.translate(- tileSize/2, - tileSize/2);
+          p.image(polaTiles[index], 0, 0);
+          p.pop();
+        }
+      }
+
       // Draw strokes only one time
       p.noLoop();
     }
   }
 
-  p.windowResized = () => {
-  	// p.resizeCanvas(p.windowWidth, p.windowHeight);
+  /**
+   * First truchet
+   * @param  {[Object]} pg graphics
+   * @return {[Object]} pg graphics
+   */
+  const tile0 = (pg) => {
+    pg.noFill();
+    pg.stroke(strokeColor);
+    pg.strokeWeight(strWeight);
+
+    pg.arc(pg.width, 0, pg.width, pg.width, p.HALF_PI, p.PI);
+    pg.arc(0, pg.height, pg.width, pg.width, p.PI + p.HALF_PI, 0);
+
+    return pg;
   }
 
-  // Truchet class
-  function Truchet(x, y, width) {
+  /**
+   * Second truchet
+   * @param  {[Object]} pg graphics
+   * @return {[Object]} pg graphics
+   */
+   const tile1 = (pg) => {
+    pg.noFill();
+    pg.stroke(strokeColor);
+    pg.strokeWeight(strWeight);
 
-    // Two tiles possibilities
-    const option = p.round(p.random(1));
+    strokedLine(0, pg.height/3, pg.width/2, pg.height/3, pg);
+    pg.arc(pg.width/2, pg.height/2, pg.width/3, pg.height/3, -p.HALF_PI, 0);
 
-    this.drawTile = function() {
+    strokedLine(pg.width/2, 2*pg.height/3, pg.width, 2*pg.height/3, pg);
+    pg.arc(pg.width/2, pg.height/2, pg.width/3, pg.height/3, p.HALF_PI, p.PI);
 
-      switch (option) {
-        case 0:
-        // Two 1/4 circle on top right and bottom left corners
-        p.arc(x + width, y, width, width, p.HALF_PI, p.PI);
-        p.arc(x, y + width, width, width, p.PI + p.HALF_PI, 0);
-          break;
+    strokedLine(2*pg.height/3, pg.height/2, 2*pg.width/3, pg.height, pg);
+    strokedLine(pg.height/3, 0, pg.width/3, pg.height/2, pg);
 
-        // Two 1/4 circle on top left and bottom right corners
-        default:
-        p.arc(x, y, width, width, p.TWO_PI, p.HALF_PI);
-        p.arc(x + width, y + width, width, width, p.PI, p.PI + p.HALF_PI);
-      }
+    pg.arc(pg.width, 0, 2*pg.width/3, 2*pg.height/3, p.HALF_PI, p.PI);
+    pg.arc(0, pg.height, 2*pg.width/3, 2*pg.height/3, -p.HALF_PI, 0);
 
-    }
+    return pg;
   }
 
-  p.start = (color) => {
-    dominantColor = color;
-    started = true;
+  const tile2 = (pg) => {
+    strokedLine(0, pg.height/3, pg.width/2, pg.height/3, pg);
+    strokedLine(pg.width/3, 0, pg.width/3, pg.height, pg);
+    strokedLine(0, 2*pg.height/3, pg.width, 2*pg.height/3, pg);
+    strokedLine(2*pg.width/3, 0, 2*pg.width/3, pg.height, pg);
+    strokedLine(pg.width/2, pg.height/3, pg.width, pg.height/3, pg);
+
+    return pg;
+  }
+
+  const tile3 = (pg) => {
+    pg.noFill();
+    pg.stroke(strokeColor);
+    pg.strokeWeight(strWeight);
+
+    pg.arc(pg.width/2, 0, pg.width/3, pg.height/3, 0, p.PI);
+    pg.arc(pg.width, pg.height/2, pg.width/3, pg.height/3, p.HALF_PI, 3 * p.HALF_PI);
+    pg.arc(pg.width/2, pg.height, pg.width/3, pg.height/3, p.PI, p.TAU);
+    pg.arc(0, pg.height/2, pg.width/3, pg.height/3, -p.HALF_PI, p.HALF_PI);
+
+    return pg;
+  }
+
+  const tile4 = (pg) => {
+    pg.noFill();
+    pg.stroke(strokeColor);
+    pg.strokeWeight(strWeight);
+
+    pg.arc(pg.width/2, 0, pg.width/3, pg.height/3, 0, p.PI);
+    pg.arc(pg.width/2, pg.height, pg.width/3, pg.height/3, p.PI, p.TAU);
+    pg.bezier(0, pg.height/3, pg.width/2, pg.height/3, pg.width/2, 2*pg.height/3, pg.width, 2*pg.height/3);
+    pg.bezier(0, 2*pg.height/3, pg.width/2, 2*pg.height/3, pg.width/2, pg.height/3, pg.width, pg.height/3);
+
+    return pg;
+  }
+
+  const tile5 = (pg) => {
+    pg.noFill();
+    pg.stroke(strokeColor);
+    pg.strokeWeight(strWeight);
+
+    pg.arc(0, 0, 2*pg.width/3, 2*pg.height/3, 0, p.HALF_PI);
+    pg.arc(0, pg.height, 2*pg.width/3, 2*pg.height/3, -p.HALF_PI, 0);
+    pg.arc(pg.width, 0, 2*pg.width/3, 2*pg.height/3, p.HALF_PI, p.PI);
+    pg.arc(pg.width, pg.height, 2*pg.width/3, 2*pg.height/3, p.PI, 3*p.HALF_PI);
+
+    return pg;
+  }
+
+  /**
+   * Third truchet
+   * @param  {[Object]} pg graphics
+   * @return {[Object]} pg graphics
+   */
+  const tile6 = (pg) => {
+    strokedLine(pg.width / 2, 0, 0, pg.height / 2, pg);
+    strokedLine(pg.width, pg.height / 2, pg.width / 2, pg.height, pg);
+    strokedLine(0, pg.height / 2, pg.width, pg.height / 2, pg);
+
+    return pg;
+  }
+
+  const strokedLine = (x1, y1, x2, y2, pg) => {
+    pg.strokeCap(p.SQUARE);
+    pg.stroke(p.color(255));
+    pg.strokeWeight(strWeight + 3);
+    pg.line(x1, y1, x2, y2);
+
+    pg.strokeCap(p.PROJECT);
+    pg.stroke(strokeColor);
+    pg.strokeWeight(strWeight);
+    pg.line(x1, y1, x2, y2);
   }
 };
 
@@ -83,7 +211,7 @@ export default class Background {
   constructor() {
     this.p5 = new p5(s);
   }
-  start(color) {
-    this.p5.start(color);
+  start(color, patternSeed) {
+    this.p5.start(color, patternSeed);
   }
 }
