@@ -23,7 +23,6 @@ let s = function( p ) {
 
     pola = p.createGraphics(440, 510);
 
-    seed = p.round(p.random(1));
   }
 
   p.draw = () => {
@@ -74,7 +73,7 @@ let s = function( p ) {
           p.pop();
         }
       }
-      
+
       p.noLoop();
     }
   }
@@ -179,6 +178,7 @@ let s = function( p ) {
   p.start = (color) => {
     dominantColor = color;
     started = true;
+    seed = p.round(p.random(2));
   }
 };
 
