@@ -14,7 +14,7 @@ let s = function( p ) {
   let seed;
 
   p.setup = () => {
-    strWeight = 3;
+    strWeight = 2;
     tileSize = 50;
 
     canvas = p.createCanvas(440, 510);
@@ -40,12 +40,18 @@ let s = function( p ) {
       // Paint the off-screen buffer onto the main canvas
       p.image(pola, 0, 0);
 
+      // first truchet tile
       let t0 = tile0(p.createGraphics(tileSize, tileSize));
+
+      // second truchet tiles
       let t1 = tile1(p.createGraphics(tileSize, tileSize));
       let t2 = tile2(p.createGraphics(tileSize, tileSize));
       let t3 = tile3(p.createGraphics(tileSize, tileSize));
       let t4 = tile4(p.createGraphics(tileSize, tileSize));
       let t5 = tile5(p.createGraphics(tileSize, tileSize));
+
+      // third truchet tiles
+      let t6 = tile6(p.createGraphics(tileSize, tileSize));
 
       switch (seed) {
         case 1:
@@ -54,6 +60,9 @@ let s = function( p ) {
           polaTiles.push(t3);
           polaTiles.push(t4);
           polaTiles.push(t5);
+          break;
+        case 2:
+          polaTiles.push(t6);
           break;
         default:
           polaTiles.push(t0);
@@ -95,7 +104,6 @@ let s = function( p ) {
   }
 
 
-
   /**
    * Second truchet
    * @param  {[Object]} pg graphics
@@ -107,14 +115,14 @@ let s = function( p ) {
     pg.stroke(strokeColor);
     pg.strokeWeight(strWeight);
 
-    pg.line(0, pg.height/3, pg.width/2, pg.height/3);
+    strokedLine(0, pg.height/3, pg.width/2, pg.height/3, pg);
     pg.arc(pg.width/2, pg.height/2, pg.width/3, pg.height/3, -p.HALF_PI, 0);
 
-    pg.line(pg.width/2, 2*pg.height/3, pg.width, 2*pg.height/3);
+    strokedLine(pg.width/2, 2*pg.height/3, pg.width, 2*pg.height/3, pg);
     pg.arc(pg.width/2, pg.height/2, pg.width/3, pg.height/3, p.HALF_PI, p.PI);
 
-    pg.line(2*pg.height/3, pg.height/2, 2*pg.width/3, pg.height);
-    pg.line(pg.height/3, 0, pg.width/3, pg.height/2);
+    strokedLine(2*pg.height/3, pg.height/2, 2*pg.width/3, pg.height, pg);
+    strokedLine(pg.height/3, 0, pg.width/3, pg.height/2, pg);
 
     pg.arc(pg.width, 0, 2*pg.width/3, 2*pg.height/3, p.HALF_PI, p.PI);
     pg.arc(0, pg.height, 2*pg.width/3, 2*pg.height/3, -p.HALF_PI, 0);
@@ -123,15 +131,11 @@ let s = function( p ) {
   }
 
   const tile2 = (pg) => {
-    pg.noFill();
-    pg.stroke(strokeColor);
-    pg.strokeWeight(strWeight);
-
-    pg.line(0, pg.height/3, pg.width/2, pg.height/3);
-    pg.line(pg.width/3, 0, pg.width/3, pg.height);
-    pg.line(0, 2*pg.height/3, pg.width, 2*pg.height/3);
-    pg.line(2*pg.width/3, 0, 2*pg.width/3, pg.height);
-    pg.line(pg.width/2, pg.height/3, pg.width, pg.height/3);
+    strokedLine(0, pg.height/3, pg.width/2, pg.height/3, pg);
+    strokedLine(pg.width/3, 0, pg.width/3, pg.height, pg);
+    strokedLine(0, 2*pg.height/3, pg.width, 2*pg.height/3, pg);
+    strokedLine(2*pg.width/3, 0, 2*pg.width/3, pg.height, pg);
+    strokedLine(pg.width/2, pg.height/3, pg.width, pg.height/3, pg);
 
     return pg;
   }
@@ -175,10 +179,30 @@ let s = function( p ) {
     return pg;
   }
 
+  const tile6 = (pg) => {
+    strokedLine(pg.width / 2, 0, 0, pg.height / 2, pg);
+    strokedLine(pg.width, pg.height / 2, pg.width / 2, pg.height, pg);
+    strokedLine(0, pg.height / 2, pg.width, pg.height / 2, pg);
+
+    return pg;
+  }
+
+  const strokedLine = (x1, y1, x2, y2, pg) => {
+    pg.strokeCap(p.SQUARE);
+    pg.stroke(p.color(255));
+    pg.strokeWeight(strWeight + 3);
+    pg.line(x1, y1, x2, y2);
+
+    pg.strokeCap(p.PROJECT);
+    pg.stroke(strokeColor);
+    pg.strokeWeight(strWeight);
+    pg.line(x1, y1, x2, y2);
+  }
+
   p.start = (color) => {
     dominantColor = color;
     started = true;
-    seed = p.round(p.random(2));
+    seed = p.round(p.random(3));
   }
 };
 
