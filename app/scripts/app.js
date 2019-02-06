@@ -39,7 +39,7 @@ class Application {
       this.polaroid = document.querySelector('.polaroid')
       this.sketchBackground = new Background();
       this.sketchPolaroid = new Polaroid();
-      this.amountPatterns = 2;
+      this.amountPatterns = 3;
 
       this._init()
     }
@@ -125,7 +125,7 @@ class Application {
         let t = this;
         setTimeout(function() {
           let color = t._getDominantColor(img);
-          let seed = Math.round(Math.random() * t.amountPatterns);
+          let seed = Math.round(Math.random() * t.amountPatterns-1);
           t.sketchPolaroid.start(color, seed);
           t.sketchBackground.start(color, seed);
 
