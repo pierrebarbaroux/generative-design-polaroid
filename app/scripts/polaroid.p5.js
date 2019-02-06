@@ -14,7 +14,7 @@ let s = function( p ) {
   let seed;
 
   p.setup = () => {
-    strWeight = 4;
+    strWeight = 2;
     tileSize = 50;
 
     canvas = p.createCanvas(440, 510);
