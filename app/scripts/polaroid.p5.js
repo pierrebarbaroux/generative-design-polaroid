@@ -202,7 +202,7 @@ let s = function( p ) {
   p.start = (color) => {
     dominantColor = color;
     started = true;
-    seed = p.round(p.random(2));
+    seed = p.round(p.random(3));
   }
 };
 
