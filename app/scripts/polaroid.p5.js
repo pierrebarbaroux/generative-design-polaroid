@@ -183,9 +183,7 @@ let s = function( p ) {
   const tile6 = (pg) => {
     strokedLine(pg.width / 2, 0, 0, pg.height / 2, pg);
     strokedLine(pg.width, pg.height / 2, pg.width / 2, pg.height, pg);
-
-    strokedLine(pg.width / 2, 0, 0, pg.height / 2, pg);
-    strokedLine(pg.width, pg.height / 2, pg.width / 2, pg.height, pg);
+    strokedLine(0, pg.height / 2, pg.width, pg.height / 2, pg);
 
     return pg;
   }
