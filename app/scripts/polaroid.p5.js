@@ -22,6 +22,7 @@ let s = function( p ) {
     p.background(255);
 
     pola = p.createGraphics(440, 510);
+
   }
 
   p.draw = () => {
