@@ -196,7 +196,7 @@ let s = function( p ) {
 
   const strokedLine = (x1, y1, x2, y2, pg) => {
     pg.strokeCap(p.SQUARE);
-    pg.stroke(p.color(255));
+    pg.stroke(p.color(247));
     pg.strokeWeight(strWeight + 3);
     pg.line(x1, y1, x2, y2);
 
