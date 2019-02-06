@@ -14,7 +14,7 @@ let s = function( p ) {
   let seed;
 
   p.setup = () => {
-    strWeight = 2;
+    strWeight = 4;
     tileSize = 50;
 
     canvas = p.createCanvas(440, 510);
@@ -190,7 +190,7 @@ let s = function( p ) {
   const strokedLine = (x1, y1, x2, y2, pg) => {
     pg.strokeCap(p.SQUARE);
     pg.stroke(p.color(255));
-    pg.strokeWeight(strWeight * (5/3));
+    pg.strokeWeight(strWeight + 3);
     pg.line(x1, y1, x2, y2);
 
     pg.strokeCap(p.PROJECT);
