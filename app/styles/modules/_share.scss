@@ -1,7 +1,25 @@
 .share {
+  padding: 20px;
+  width: 0;
   display: none;
+  opacity: 0;
 
   &-button {
-    visibility: hidden;
+    display: none;
+  }
+
+  h2 {
+    font-size: rem(26px);
+    font-family: $ave-black, 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  ul {
+    margin-top: 200px;
+
+    list-style-type: none;
+
+    li {
+      
+    }
   }
 }

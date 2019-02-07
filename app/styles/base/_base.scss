@@ -30,17 +30,18 @@ a {
   }
 }
 
-button {
+button, .btn {
   background: transparent;
   outline: none;
   border: 2px solid #E6E6E6;
   border-radius: 4px;
   padding: 10px 13px;
+  display: inline-block;
 
   // Font
   font-size: rem(14px);
   font-weight: bold;
-  font-family: $ave, 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
 
   // Effect
   cursor: pointer;
@@ -53,5 +54,20 @@ button {
       background: $turquoise;
       color: $white;
     }
+  }
+
+  &.btn-grey {
+    color: $dark-grey;
+    border-color: $dark-grey;
+    transition: 0.3s;
+
+    &:hover {
+      background: $dark-grey;
+      color: $white;
+    }
+  }
+
+  &.hidden {
+    display: none;
   }
 }

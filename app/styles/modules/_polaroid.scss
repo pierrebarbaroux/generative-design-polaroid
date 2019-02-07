@@ -20,34 +20,11 @@
     }
   }
 
-  &__actions {
-    width: 100%;
+  &__buttons {
     display: flex;
-    margin-top: rem(20px);
+    justify-content: center;
 
-    button {
-      border: 0;
-      outline: none;
-      border-radius: 4px;
-      padding: 10px 15px;
-      background: transparent;
-      font-size: rem(14px);
-      cursor: pointer;
-      transition: .3s;
-      width: 100%;
-
-      &.btn-primary {
-        color: $turquoise;
-        border: 2px solid $turquoise;
-
-        &:hover {
-          background: $turquoise;
-          color: $white;
-        }
-      }
-    }
-
-    button:not(:last-child) {
+    & > *:not(:last-child) {
       margin-right: 10px;
     }
   }
