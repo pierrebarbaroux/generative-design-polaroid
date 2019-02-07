@@ -37,20 +37,26 @@
 
   <main class="main">
     <div class="container main__container">
-      <div class="polaroid" id="canvas-polaroid">
-        <div class="polaroid__image">
-          <input type="file" class="filepond" name="filepond" accept="image/png, image/jpeg, image/gif">
+      <div>
+        <div class="polaroid" id="canvas-polaroid">
+          <div class="polaroid__image">
+            <input type="file" class="filepond" name="filepond" accept="image/png, image/jpeg, image/gif">
+          </div>
+        </div>
+        <div class="polaroid__buttons">
+          <button class="btn btn-grey btn-switch hidden">Give me another pattern!</button>
+          <button class="btn btn-blue btn-share hidden">Perfect!</button>
         </div>
       </div>
-      <button class="btn btn-blue share-button">Perfect!</button>
 
-      <div class="share">
-        <h2>Share your best moment.</h2>
-        <ul>
-          <li><a href="#">Facebook</a></li>
-          <li><a href="#">Twitter</a></li>
-          <li><a href="#">Instagram</a></li>
-        </ul>
+      <div>
+        <div class="share">
+          <h2>Share your best moment.</h2>
+          <ul>
+            <li><a class="btn btn-blue" target="_blank" href="http://www.facebook.com/sharer.php?u=https://simplesharebuttons.com">Facebook</a></li>
+            <li><a class="btn btn-blue" target="_blank" href="https://twitter.com/share?url=https://simplesharebuttons.com&amp;text=Simple%20Share%20Buttons&amp;hashtags=simplesharebuttons">Twitter</a></li>
+          </ul>
+        </div>
       </div>
     </div>
 

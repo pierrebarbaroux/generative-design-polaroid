@@ -37,9 +37,12 @@ class Application {
       this.strip = document.querySelector('.strip__image')
       this.loadingLogo = document.querySelector('.loading__logo')
       this.polaroid = document.querySelector('.polaroid')
-      this.sketchBackground = new Background();
-      this.sketchPolaroid = new Polaroid();
-      this.amountPatterns = 3;
+      this.polaroid = document.querySelector('.polaroid')
+      this.sketchBackground = new Background()
+      this.sketchPolaroid = new Polaroid()
+      this.amountPatterns = 3
+      this.switchButton = document.querySelector('.btn-switch')
+      this.color = undefined
 
       this._init()
     }
@@ -48,9 +51,10 @@ class Application {
       this._animateIntro()
       this._handleImageUpload()
 
-      let _this = this;
-      document.querySelector('.polaroid__image').addEventListener('click', function(){
-        _this._switchPatterns()
+      let t = this;
+      this.switchButton.addEventListener('click', function() {
+        t._reset()
+        t._printTruchet(t.color)
       });
     }
 
@@ -123,39 +127,57 @@ class Application {
         let img = document.createElement('img');
         img.src = src;
         let t = this;
+
+        // Init Timeline, kill it on completion for performance gain
+        let tl = new TimelineMax({onComplete: () => {
+          tl.kill()
+        }})
+
+        tl.to(document.querySelector('.btn-switch'), 0, {
+          className: "-=hidden",
+          ease: Power4.easeOut
+        }).to(document.querySelector('.btn-share'), 0, {
+          className: "-=hidden",
+          ease: Power4.easeOut
+        })
+
+        //
         setTimeout(function() {
-          let color = t._getDominantColor(img);
-          let seed = Math.round(Math.random() * t.amountPatterns-1);
-          t.sketchPolaroid.start(color, seed);
-          t.sketchBackground.start(color, seed);
-
-          // Init Timeline, kill it on completion for performance gain
-          let tl = new TimelineMax({onComplete: () => {
-            tl.kill()
-          }})
-
-          tl.to(document.querySelector('body > canvas.p5Canvas'), 0.6, {
-            autoAlpha: 1,
-            ease: Power4.easeOut
-          })
-
-          // document.querySelector('.share-button').style.display = 'block';
-
+          t.color = t._getDominantColor(img);
+          t._printTruchet();
         }, 200);
       });
 
       file.on('removefile', () => {
-        // Remove all canvas
-        document.querySelectorAll('canvas').forEach(el => el.remove());
-
-        // Reset background and polaroid
-        this.sketchBackground = new Background();
-        this.sketchPolaroid = new Polaroid();
+        this._reset();
       });
     }
 
-    _switchPatterns() {
-      console.log("switch patterns");
+    _printTruchet() {
+      if(this.color) {
+        let seed = Math.floor(Math.random() * this.amountPatterns);
+        this.sketchPolaroid.start(this.color, seed);
+        this.sketchBackground.start(this.color, seed);
+
+        // Init Timeline, kill it on completion for performance gain
+        let tl = new TimelineMax({onComplete: () => {
+          tl.kill()
+        }})
+
+        tl.to(document.querySelector('body > canvas.p5Canvas'), 0.6, {
+          opacity: 1,
+          ease: Power4.easeOut
+        })
+      }
+    }
+
+    _reset() {
+      // Remove all canvas
+      document.querySelectorAll('canvas:not(.filepond--image-bitmap)').forEach(el => el.remove());
+
+      // Reset background and polaroid
+      this.sketchBackground = new Background();
+      this.sketchPolaroid = new Polaroid();
     }
 
     _getDominantColor(image) {

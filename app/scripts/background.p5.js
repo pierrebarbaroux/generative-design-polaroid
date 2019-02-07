@@ -33,7 +33,7 @@ let s = function( p ) {
 
       p.randomSeed(seed);
 
-      strokeColor = p.color(230);
+      strokeColor = p.color(235);
       p.noFill();
       p.stroke(strokeColor);
       p.strokeWeight(strWeight);
