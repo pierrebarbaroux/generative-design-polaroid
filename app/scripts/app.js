@@ -136,9 +136,6 @@ class Application {
         tl.to(document.querySelector('.btn-switch'), 0, {
           className: "-=hidden",
           ease: Power4.easeOut
-        }).to(document.querySelector('.btn-share'), 0, {
-          className: "-=hidden",
-          ease: Power4.easeOut
         })
 
         //
@@ -150,6 +147,7 @@ class Application {
 
       file.on('removefile', () => {
         this._reset();
+        document.querySelector('.btn-switch').classList.add('hidden');
       });
     }
 
